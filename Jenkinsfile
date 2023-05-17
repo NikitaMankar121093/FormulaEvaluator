@@ -90,20 +90,22 @@ stages{
                     sh 'chmod -R 777 /var/lib/jenkins/workspace/unit-test/*'        
                     echo "index.html created"         
                 }
-            }
-      }
-                post{
-                        failure{
-                        mail to: "shreya.dhanbhar@bluebinaries.com, nikita.mankar@bluebinaries.com",
-                        subject: "Failure",
-                        body: "${BUILD_NUMBER}_FAIL!"
-                            }
-                    }
-                     post{
+              post{  
                         always{
                         mail to: "shreya.dhanbhar@bluebinaries.com, nikita.mankar@bluebinaries.com",
                         subject: "build completed with 0 failures",
                         body: "${BUILD_NUMBER}_PASS!"
                             }
                     }
+            
+            }
+      }
+                post{
+                        failure{
+                        mail to: "shreya.dhanbhar@bluebinaries.com, nikita.mankar@bluebinaries.com",
+                        subject: "Failed Pipeline",
+                        body: "${BUILD_NUMBER}_FAIL!, Something is wrong with Pipeline"
+                            }
+                    }
+                        
     }
