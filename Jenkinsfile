@@ -43,7 +43,7 @@ stages{
                 }
                      post{
                              always{
-                             mail to: "shreya.dhanbhar@bluebinaries.com, nikita.mankar@bluebinaries.com",
+                             mail to: "harshal.tawade@bluebinaries.com, shreya.dhanbhar@bluebinaries.com, nikita.mankar@bluebinaries.com",
                              subject: "Build Success",
                              body: "${BUILD_NUMBER}_Passed!"
                              }
@@ -80,7 +80,7 @@ stages{
                 }
                 post{
                          always{
-                         mail to: "shreya.dhanbhar@bluebinaries.com, nikita.mankar@bluebinaries.com",
+                         mail to: "harshal.tawade@bluebinaries.com, shreya.dhanbhar@bluebinaries.com, nikita.mankar@bluebinaries.com",
                          subject: "Artifacts Uploaded",
                          body: "${BUILD_NUMBER}_Passed! Uploaded Artifacts to Nexus repo successfully"
                          }
@@ -98,7 +98,7 @@ stages{
                 }
               post{  
                         always{
-                        mail to: "shreya.dhanbhar@bluebinaries.com, nikita.mankar@bluebinaries.com",
+                        mail to: "harshal.tawade@bluebinaries.com, shreya.dhanbhar@bluebinaries.com, nikita.mankar@bluebinaries.com",
                         subject: "build completed with 0 failures",
                         body: "${BUILD_NUMBER}_PASS!"
                             }
@@ -108,7 +108,7 @@ stages{
       }
                 post{
                         failure{
-                        mail to: "shreya.dhanbhar@bluebinaries.com, nikita.mankar@bluebinaries.com",
+                        mail to: "harshal.tawade@bluebinaries.com, shreya.dhanbhar@bluebinaries.com, nikita.mankar@bluebinaries.com",
                         subject: "Failed Pipeline",
                         body: "${BUILD_NUMBER}_FAIL!, Something is wrong with Pipeline"
                             }
