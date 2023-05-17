@@ -48,6 +48,12 @@ stages{
                              body: "${BUILD_NUMBER}_Passed!"
                              }
                          }
+            steps {
+                office365ConnectorSend webhookUrl: "https://bluebinaries.webhook.office.com/webhookb2/12240007-70fd-4219-b327-504e0903236f@2771cf1c-6046-4140-b5eb-779adb5c72fa/JenkinsCI/398cfea620094d7a8f795df71386cb09/1d0221d0-6d31-4dd7-976a-de31d6ee6aee",
+                message: 'Code is deployed',
+                status: 'Success'            
+            }
+        
 
             }
                  
