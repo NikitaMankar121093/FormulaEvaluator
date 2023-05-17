@@ -1,6 +1,12 @@
 pipeline
     {
         agent any
+        
+         options {
+        office365ConnectorWebhooks([
+            [name: "Office 365", url: "${URL_WEBHOOK}", notifyBackToNormal: true, notifyFailure: true, notifyRepeatedFailure: true, notifySuccess: true, notifyAborted: true]
+        ])
+    }
 stages{
         stage('clean workspace')
             {
@@ -107,10 +113,5 @@ stages{
                         body: "${BUILD_NUMBER}_FAIL!, Something is wrong with Pipeline"
                             }
                     }
-         options {
-        office365ConnectorWebhooks([
-            [name: "Office 365", url: "${URL_WEBHOOK}", notifyBackToNormal: true, notifyFailure: true, notifyRepeatedFailure: true, notifySuccess: true, notifyAborted: true]
-        ])
-    }
-                        
+           
     }
