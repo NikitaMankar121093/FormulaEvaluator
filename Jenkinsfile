@@ -58,7 +58,7 @@ stages{
                 {
                     // Run unit tests for your project
                     sh 'cd /var/lib/jenkins/workspace/FormulaEvaluator/build/ && make test'
-                   // sh 'cd /var/lib/jenkins/workspace/FormulaEvaluator/build/tst/ && ./tst/ExampleProject_tst --gtest_output=xml'
+                   // sh 'cd /var/lib/jenkins/workspace/FormulaEvaluator/build/tst/ && ./ExampleProject_tst --gtest_output=xml'
                 }
               //   post {
                 //        always {
