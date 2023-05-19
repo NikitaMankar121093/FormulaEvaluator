@@ -88,28 +88,40 @@ stages{
             
             }
 
-        stage('Doxygen')
+        stage('Generating Doxygen Documentation')
             {
                 steps
                 {
                     sh 'cd /var/lib/jenkins/workspace/FormulaEvaluator/build/ && make docs'
                     sh 'chmod -R 777 /var/lib/jenkins/workspace/FormulaEvaluator/*'        
-                    echo "index.html created"         
+                    echo "index.html created"  
+            
                 }
               post{  
                         always{
                         mail to: "shreya.dhanbhar@bluebinaries.com",
-                        subject: "build completed with 0 failures",
-                        body: "${BUILD_NUMBER}_PASS!"
+                        subject: "Doxygen Documentation ",
+                        body: "${BUILD_NUMBER}_PASS! Generated Doxygen Documentation"
                             }
               }
             
             }
+             stage('Doxygen tar')
+            {
+                steps
+                {
+                    //building tar directory 
+                    sh 'cd /var/lib/jenkins/workspace/FormulaEvaluator/docs/html && tar -czvf /var/lib/jenkins/workspace/FormulaEvaluator/docs/html.tar.gz /var/lib/jenkins/workspace/FormulaEvaluator/docs/html/'
+                    echo "tar directory generated for doxygen"
+                }
+            }    
+
+
       }
                 post{
                         failure{
                         mail to: "shreya.dhanbhar@bluebinaries.com",
-                        subject: "Failed Pipeline",
+                        subject: "Pipeline Failed",
                         body: "${BUILD_NUMBER}_FAIL!, Something is wrong with Pipeline"
                             }
                     }
