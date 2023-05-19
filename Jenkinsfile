@@ -125,7 +125,7 @@ stages{
                          always{
                          mail to: "shreya.dhanbhar@bluebinaries.com",
                          subject: "Documents Uploaded",
-                         body: "${BUILD_NUMBER}_Passed! Uploaded Generated Doxygen Documentation to Nexus repo successfully"
+                         body: "${BUILD_NUMBER}_Passed! Uploaded Generated Doxygen Documents to Nexus repo successfully"
                          }
                    }
             
