@@ -60,11 +60,11 @@ stages{
                     sh 'cd /var/lib/jenkins/workspace/FormulaEvaluator/build/ && make test'
                     sh 'cd /var/lib/jenkins/workspace/FormulaEvaluator/build/tst/ && ./tst/ExampleProject_tst --gtest_output=xml'
                 }
-                 post {
-                        always {
-                                junit(testResults: '/var/lib/jenkins/workspace/FormulaEvaluator/build/tst/*.xml', allowEmptyResults : true)
-    }
-  }
+              //   post {
+                //        always {
+                  //              junit(testResults: '/var/lib/jenkins/workspace/FormulaEvaluator/build/tst/*.xml', allowEmptyResults : true)
+    //}
+  //}
             }
 
         stage('Build tar')
