@@ -22,10 +22,10 @@ stages{
                 {  
                     echo "Clone started"
                     // Clone the repository using Git
-                    sh 'cd /var/lib/jenkins/workspace/ && git clone https://github.com/shredhanbhar/unit-test.git'
-                    sh 'rm -rf /var/lib/jenkins/workspace/unit-test/lib'
-                    sh 'mkdir /var/lib/jenkins/workspace/unit-test/lib'
-                    sh 'cd /var/lib/jenkins/workspace/unit-test/lib/ && git clone https://github.com/google/googletest.git'
+                    sh 'cd /var/lib/jenkins/workspace/ && git clone https://github.com/shredhanbhar/FormulaEvaluator.git'
+                   // sh 'rm -rf /var/lib/jenkins/workspace/unit-test/lib'
+                   // sh 'mkdir /var/lib/jenkins/workspace/unit-test/lib'
+                   // sh 'cd /var/lib/jenkins/workspace/unit-test/lib/ && git clone https://github.com/google/googletest.git'
                     echo "Clone done"
                 }
             }
@@ -37,13 +37,13 @@ stages{
                 {   
                     // Run the build command for your C/C++ project
                     echo "Build started"
-                   // sh 'mkdir -r /var/lib/jenkins/workspace/unit-test/build'
-                    sh 'cd /var/lib/jenkins/workspace/unit-test/build/ && cmake .. && make'
+                    // sh 'mkdir -r /var/lib/jenkins/workspace/unit-test/build'
+                    sh 'cd /var/lib/jenkins/workspace/FormulaEvaluator/build/ && cmake .. && make'
                     echo "Build ended"
                 }
                      post{
                              always{
-                             mail to: "harshal.tawade@bluebinaries.com, shreya.dhanbhar@bluebinaries.com, nikita.mankar@bluebinaries.com",
+                             mail to: "shreya.dhanbhar@bluebinaries.com",
                              subject: "Build Success",
                              body: "${BUILD_NUMBER}_Passed!"
                              }
@@ -57,7 +57,7 @@ stages{
                 steps
                 {
                     // Run unit tests for your project
-                    sh 'cd /var/lib/jenkins/workspace/unit-test/build/ && make test'
+                    sh 'cd /var/lib/jenkins/workspace/FormulaEvaluator/build/ && make test'
                 }
                 
             }
@@ -67,7 +67,7 @@ stages{
                 steps
                 {
                     //building tar directory 
-                    sh 'cd /var/lib/jenkins/workspace/unit-test/ && tar -czvf /var/lib/jenkins/workspace/unit-test/build.tar.gz /var/lib/jenkins/workspace/unit-test/build/'
+                    sh 'cd /var/lib/jenkins/workspace/FormulaEvaluator/ && tar -czvf /var/lib/jenkins/workspace/FormulaEvaluator/build.tar.gz /var/lib/jenkins/workspace/FormulaEvaluator/build/'
                     echo "tar directory generated"
                 }
             }    
@@ -76,11 +76,11 @@ stages{
             {
                 steps
                 {
-                    nexusArtifactUploader artifacts: [[artifactId: '${BUILD_NUMBER}', classifier: 'build.tar.gz', file: '/var/lib/jenkins/workspace/unit-test/build.tar.gz', type: 'tar']], credentialsId: 'nexus', groupId: 'cmake-repo', nexusUrl: 'localhost:8081', nexusVersion: 'nexus3', protocol: 'http', repository: 'unit-test', version: '1'
+                    nexusArtifactUploader artifacts: [[artifactId: '${BUILD_NUMBER}', classifier: 'build.tar.gz', file: '/var/lib/jenkins/workspace/FormulaEvaluator/build.tar.gz', type: 'tar']], credentialsId: 'nexus', groupId: 'cmake-repo', nexusUrl: 'localhost:8081', nexusVersion: 'nexus3', protocol: 'http', repository: 'unit-test', version: '1'
                 }
                 post{
                          always{
-                         mail to: "harshal.tawade@bluebinaries.com, shreya.dhanbhar@bluebinaries.com, nikita.mankar@bluebinaries.com",
+                         mail to: "shreya.dhanbhar@bluebinaries.com",
                          subject: "Artifacts Uploaded",
                          body: "${BUILD_NUMBER}_Passed! Uploaded Artifacts to Nexus repo successfully"
                          }
@@ -92,13 +92,13 @@ stages{
             {
                 steps
                 {
-                    sh 'cd /var/lib/jenkins/workspace/unit-test/build/ && make docs'
-                    sh 'chmod -R 777 /var/lib/jenkins/workspace/unit-test/*'        
+                    sh 'cd /var/lib/jenkins/workspace/FormulaEvaluator/build/ && make docs'
+                    sh 'chmod -R 777 /var/lib/jenkins/workspace/FormulaEvaluator/*'        
                     echo "index.html created"         
                 }
               post{  
                         always{
-                        mail to: "harshal.tawade@bluebinaries.com, shreya.dhanbhar@bluebinaries.com, nikita.mankar@bluebinaries.com",
+                        mail to: "shreya.dhanbhar@bluebinaries.com",
                         subject: "build completed with 0 failures",
                         body: "${BUILD_NUMBER}_PASS!"
                             }
@@ -108,7 +108,7 @@ stages{
       }
                 post{
                         failure{
-                        mail to: "harshal.tawade@bluebinaries.com, shreya.dhanbhar@bluebinaries.com, nikita.mankar@bluebinaries.com",
+                        mail to: "shreya.dhanbhar@bluebinaries.com",
                         subject: "Failed Pipeline",
                         body: "${BUILD_NUMBER}_FAIL!, Something is wrong with Pipeline"
                             }
