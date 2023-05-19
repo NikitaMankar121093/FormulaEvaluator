@@ -114,7 +114,22 @@ stages{
                     sh 'cd /var/lib/jenkins/workspace/FormulaEvaluator/docs/html && tar -czvf /var/lib/jenkins/workspace/FormulaEvaluator/docs/html.tar.gz /var/lib/jenkins/workspace/FormulaEvaluator/docs/html/'
                     echo "tar directory generated for doxygen"
                 }
-            }    
+            } 
+            stage('Upload Doxygen tar to Nexus repo')
+            {
+                steps
+                {
+                    nexusArtifactUploader artifacts: [[artifactId: '${BUILD_NUMBER}', classifier: 'html.tar.gz', file: '/var/lib/jenkins/workspace/FormulaEvaluator/docs/html.tar.gz', type: 'tar']], credentialsId: 'nexus', groupId: 'cmake-repo', nexusUrl: 'localhost:8081', nexusVersion: 'nexus3', protocol: 'http', repository: 'unit-test', version: '1'
+                }
+                post{
+                         always{
+                         mail to: "shreya.dhanbhar@bluebinaries.com",
+                         subject: "Documents Uploaded",
+                         body: "${BUILD_NUMBER}_Passed! Uploaded Generated Doxygen Documentation to Nexus repo successfully"
+                         }
+                   }
+            
+            }   
 
 
       }
