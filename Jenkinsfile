@@ -60,9 +60,11 @@ stages{
                    sh 'cd /var/lib/jenkins/workspace/FormulaEvaluator/build/ && make test'
                    sh 'cd /var/lib/jenkins/workspace/FormulaEvaluator/build/tst && ./ExampleProject_tst --gtest_output=xml'
                    sh 'cd /var/lib/jenkins/workspace/FormulaEvaluator/build/tst/ && git clone https://github.com/adarmalik/gtest2html.git'
-                   sh 'chmod -R 777 /var/lib/jenkins/workspace/FormulaEvaluator/build/tst/*'
-                   sh 'xsltproc gtest2html/gtest2html.xslt test_detail.xml > test_detail.html'
-                      sh 'chmod -R 777 /var/lib/jenkins/workspace/FormulaEvaluator/build/tst/*'
+                 sh 'chmod -R 777 /var/lib/jenkins/workspace/FormulaEvaluator/build/tst'
+                 sh 'chown -R jenkins:jenkins *'
+
+                   sh 'cd /var/lib/jenkins/workspace/FormulaEvaluator/build/tst/ && xsltproc gtest2html/gtest2html.xslt test_detail.xml > test_detail.html'
+                sh 'chmod -R 777 /var/lib/jenkins/workspace/FormulaEvaluator/build/tst'
                 }
               //   post {
                 //        always {
