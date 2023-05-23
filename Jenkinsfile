@@ -57,8 +57,11 @@ stages{
                 steps
                 {
                     // Run unit tests for your project
-                    sh 'cd /var/lib/jenkins/workspace/FormulaEvaluator/build/ && make test'
-                   sh 'cd /var/lib/jenkins/workspace/FormulaEvaluator/build/tst && ./ExampleProject_tst --gtest_output=xml:report-file.xml'
+                   sh 'cd /var/lib/jenkins/workspace/FormulaEvaluator/build/ && make test'
+                   sh 'cd /var/lib/jenkins/workspace/FormulaEvaluator/build/tst && ./ExampleProject_tst --gtest_output=xml'
+                   sh 'cd /var/lib/jenkins/workspace/FormulaEvaluator/build/tst/ && git clone https://github.com/adarmalik/gtest2html.git'
+                   sh 'chmod -R 777 /var/lib/jenkins/workspace/FormulaEvaluator/build/tst/*'
+                   sh 'xsltproc gtest2html/gtest2html.xslt test_detail.xml > test_detail.html'
                 }
               //   post {
                 //        always {
