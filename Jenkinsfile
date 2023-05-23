@@ -62,6 +62,7 @@ stages{
                    sh 'cd /var/lib/jenkins/workspace/FormulaEvaluator/build/tst/ && git clone https://github.com/adarmalik/gtest2html.git'
                    sh 'chmod -R 777 /var/lib/jenkins/workspace/FormulaEvaluator/build/tst/*'
                    sh 'xsltproc gtest2html/gtest2html.xslt test_detail.xml > test_detail.html'
+                      sh 'chmod -R 777 /var/lib/jenkins/workspace/FormulaEvaluator/build/tst/*'
                 }
               //   post {
                 //        always {
