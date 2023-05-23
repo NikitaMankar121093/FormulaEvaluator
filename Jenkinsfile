@@ -66,11 +66,22 @@ stages{
                    sh 'cd /var/lib/jenkins/workspace/FormulaEvaluator/build/tst/ && xsltproc gtest2html/gtest2html.xslt test_detail.xml > test_detail.html'
                 sh 'chmod -R 777 /var/lib/jenkins/workspace/FormulaEvaluator/build/tst'
                 }
-              //   post {
-                //        always {
-                  //              junit(testResults: '/var/lib/jenkins/workspace/FormulaEvaluator/build/tst/*.xml', allowEmptyResults : true)
-    //}
-  //}
+            }
+
+             stage('Upload gtest.html to Nexus repo')
+            {
+                steps
+                {
+                    nexusArtifactUploader artifacts: [[artifactId: '${BUILD_NUMBER}', classifier: 'tst.tar.gz', file: '/var/lib/jenkins/workspace/FormulaEvaluator/tst.tar.gz', type: 'tar']], credentialsId: 'nexus', groupId: 'cmake-repo', nexusUrl: 'localhost:8081', nexusVersion: 'nexus3', protocol: 'http', repository: 'unit-test', version: '1'
+                }
+                post{
+                         always{
+                         mail to: "shreya.dhanbhar@bluebinaries.com",
+                         subject: "gtest.html file Uploaded",
+                         body: "${BUILD_NUMBER}_Passed! Uploaded google-test generated test_detail.html file  to Nexus repo successfully"
+                         }
+                   }
+            
             }
 
         stage('Build tar')
