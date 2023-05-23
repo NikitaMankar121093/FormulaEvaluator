@@ -65,6 +65,9 @@ stages{
 
                    sh 'cd /var/lib/jenkins/workspace/FormulaEvaluator/build/tst/ && xsltproc gtest2html/gtest2html.xslt test_detail.xml > test_detail.html'
                 sh 'chmod -R 777 /var/lib/jenkins/workspace/FormulaEvaluator/build/tst'
+                     //building tar directory 
+                    sh 'cd /var/lib/jenkins/workspace/FormulaEvaluator/build/ && tar -czvf /var/lib/jenkins/workspace/FormulaEvaluator/build/tst.tar.gz /var/lib/jenkins/workspace/FormulaEvaluator/build/tst'
+                    echo " test_detail tst tar directory generated"
                 }
             }
 
@@ -72,7 +75,7 @@ stages{
             {
                 steps
                 {
-                    nexusArtifactUploader artifacts: [[artifactId: '${BUILD_NUMBER}', classifier: 'tst.tar.gz', file: '/var/lib/jenkins/workspace/FormulaEvaluator/tst.tar.gz', type: 'tar']], credentialsId: 'nexus', groupId: 'cmake-repo', nexusUrl: 'localhost:8081', nexusVersion: 'nexus3', protocol: 'http', repository: 'unit-test', version: '1'
+                    nexusArtifactUploader artifacts: [[artifactId: '${BUILD_NUMBER}', classifier: 'tst.tar.gz', file: '/var/lib/jenkins/workspace/FormulaEvaluator/build/tst.tar.gz', type: 'tar']], credentialsId: 'nexus', groupId: 'cmake-repo', nexusUrl: 'localhost:8081', nexusVersion: 'nexus3', protocol: 'http', repository: 'unit-test', version: '1'
                 }
                 post{
                          always{
