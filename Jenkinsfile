@@ -48,7 +48,7 @@ stages{
                 }
                      post{
                              always{
-                             mail to: "harshal.tawade@bluebinaries.com, shreya.dhanbhar@bluebinaries.com",
+                             mail to: "shreya.dhanbhar@bluebinaries.com",
                              subject: "Build Success",
                              body: "${BUILD_NUMBER}_Passed! Build Success and created .tar file i.e build.tar.gz"
                              }
@@ -63,7 +63,7 @@ stages{
                 }
                 post{
                          always{
-                         mail to: "harshal.tawade@bluebinaries.com, shreya.dhanbhar@bluebinaries.com",
+                         mail to: "shreya.dhanbhar@bluebinaries.com",
                          subject: "Artifacts Uploaded",
                          body: "${BUILD_NUMBER}_Passed! Uploaded Artifacts i.e build.tar.gz to Nexus repo successfully"
                          }
@@ -97,7 +97,7 @@ stages{
                 }
                 post{
                          always{
-                         mail to: "harshal.tawade@bluebinaries.com, shreya.dhanbhar@bluebinaries.com",
+                         mail to: "shreya.dhanbhar@bluebinaries.com",
                          subject: "gtest.html file Uploaded",
                          body: "${BUILD_NUMBER}_Passed! Uploaded google-test generated test_detail.html file to Nexus repo successfully"
                          }
@@ -122,7 +122,7 @@ stages{
                 }
               post{  
                         always{
-                        mail to: "harshal.tawade@bluebinaries.com, shreya.dhanbhar@bluebinaries.com",
+                        mail to: "shreya.dhanbhar@bluebinaries.com",
                         subject: "Doxygen Documentation ",
                         body: "${BUILD_NUMBER}_PASS! Generated Doxygen Documentation"
                             }
@@ -138,7 +138,7 @@ stages{
                 }
                 post{
                          always{
-                         mail to: "harshal.tawade@bluebinaries.com, shreya.dhanbhar@bluebinaries.com",
+                         mail to: "shreya.dhanbhar@bluebinaries.com",
                          subject: "Doxygen Documents Uploaded",
                          body: "${BUILD_NUMBER}_Passed! Generated Doxygen Documents are uploded to Nexus repo successfully"
                          }
@@ -153,7 +153,7 @@ stages{
                 }
                 post{
                          always{
-                         mail to: "harshal.tawade@bluebinaries.com, shreya.dhanbhar@bluebinaries.com",
+                         mail to: "shreya.dhanbhar@bluebinaries.com",
                          subject: "Execution Completed Successfully",
                          body: "${BUILD_NUMBER}_Passed! Pipeline Execution Successfully Completed"
                          }
@@ -165,7 +165,7 @@ stages{
       }
                 post{
                         failure{
-                        mail to: "harshal.tawade@bluebinaries.com, shreya.dhanbhar@bluebinaries.com",
+                        mail to: "shreya.dhanbhar@bluebinaries.com",
                         subject: "Pipeline Failed",
                         body: "${BUILD_NUMBER}_FAIL!, Something is wrong with Pipeline"
                             }
