@@ -40,62 +40,20 @@ stages{
                     // sh 'mkdir -r /var/lib/jenkins/workspace/unit-test/build'
                     sh 'cd /var/lib/jenkins/workspace/FormulaEvaluator/build/ && cmake .. && make'
                     echo "Build ended"
+                     //building tar directory 
+                    sh 'cd /var/lib/jenkins/workspace/FormulaEvaluator/ && tar -czvf /var/lib/jenkins/workspace/FormulaEvaluator/build.tar.gz /var/lib/jenkins/workspace/FormulaEvaluator/build/'
+                    echo "tar directory generated"
+
+
                 }
                      post{
                              always{
                              mail to: "shreya.dhanbhar@bluebinaries.com",
                              subject: "Build Success",
-                             body: "${BUILD_NUMBER}_Passed!"
+                             body: "${BUILD_NUMBER}_Passed! Build Success and created .tar file i.e build.tar.gz"
                              }
                          }
-
             }
-                 
-
-        stage('Junit-test')
-            {
-                steps
-                {
-                    // Run unit tests for your project
-                   sh 'cd /var/lib/jenkins/workspace/FormulaEvaluator/build/ && make test'
-                   sh 'cd /var/lib/jenkins/workspace/FormulaEvaluator/build/tst && ./ExampleProject_tst --gtest_output=xml'
-                   sh 'cd /var/lib/jenkins/workspace/FormulaEvaluator/build/tst/ && git clone https://github.com/adarmalik/gtest2html.git'
-                 sh 'chmod -R 777 /var/lib/jenkins/workspace/FormulaEvaluator/build/tst'
-                 sh 'chown -R jenkins:jenkins *'
-
-                   sh 'cd /var/lib/jenkins/workspace/FormulaEvaluator/build/tst/ && xsltproc gtest2html/gtest2html.xslt test_detail.xml > test_detail.html'
-                sh 'chmod -R 777 /var/lib/jenkins/workspace/FormulaEvaluator/build/tst'
-                     //building tar directory 
-                    sh 'cd /var/lib/jenkins/workspace/FormulaEvaluator/build/ && tar -czvf /var/lib/jenkins/workspace/FormulaEvaluator/build/tst.tar.gz /var/lib/jenkins/workspace/FormulaEvaluator/build/tst'
-                    echo " test_detail tst tar directory generated"
-                }
-            }
-
-             stage('Upload gtest.html to Nexus repo')
-            {
-                steps
-                {
-                    nexusArtifactUploader artifacts: [[artifactId: '${BUILD_NUMBER}', classifier: 'tst.tar.gz', file: '/var/lib/jenkins/workspace/FormulaEvaluator/build/tst.tar.gz', type: 'tar']], credentialsId: 'nexus', groupId: 'cmake-repo', nexusUrl: 'localhost:8081', nexusVersion: 'nexus3', protocol: 'http', repository: 'unit-test', version: '1'
-                }
-                post{
-                         always{
-                         mail to: "shreya.dhanbhar@bluebinaries.com",
-                         subject: "gtest.html file Uploaded",
-                         body: "${BUILD_NUMBER}_Passed! Uploaded google-test generated test_detail.html file  to Nexus repo successfully"
-                         }
-                   }
-            
-            }
-
-        stage('Build tar')
-            {
-                steps
-                {
-                    //building tar directory 
-                    sh 'cd /var/lib/jenkins/workspace/FormulaEvaluator/ && tar -czvf /var/lib/jenkins/workspace/FormulaEvaluator/build.tar.gz /var/lib/jenkins/workspace/FormulaEvaluator/build/'
-                    echo "tar directory generated"
-                }
-            }    
 
         stage('Upload Artifacts to Nexus repo')
             {
@@ -107,11 +65,46 @@ stages{
                          always{
                          mail to: "shreya.dhanbhar@bluebinaries.com",
                          subject: "Artifacts Uploaded",
-                         body: "${BUILD_NUMBER}_Passed! Uploaded Artifacts to Nexus repo successfully"
+                         body: "${BUILD_NUMBER}_Passed! Uploaded Artifacts i.e build.tar.gz to Nexus repo successfully"
                          }
                    }
             
             }
+        stage('Junit-test')
+            {
+                steps
+                {
+                // Run unit tests for your project
+                   sh 'cd /var/lib/jenkins/workspace/FormulaEvaluator/build/ && make test'
+                   sh 'cd /var/lib/jenkins/workspace/FormulaEvaluator/build/tst && ./ExampleProject_tst --gtest_output=xml'
+                   sh 'cd /var/lib/jenkins/workspace/FormulaEvaluator/build/tst/ && git clone https://github.com/adarmalik/gtest2html.git'
+                   sh 'chmod -R 777 /var/lib/jenkins/workspace/FormulaEvaluator/build/tst'
+                   sh 'chown -R jenkins:jenkins *'
+                   sh 'cd /var/lib/jenkins/workspace/FormulaEvaluator/build/tst/ && xsltproc gtest2html/gtest2html.xslt test_detail.xml > test_detail.html'
+                   sh 'chmod -R 777 /var/lib/jenkins/workspace/FormulaEvaluator/build/tst'
+                   
+                //building tar directory 
+                   sh 'cd /var/lib/jenkins/workspace/FormulaEvaluator/build/ && tar -czvf /var/lib/jenkins/workspace/FormulaEvaluator/build/tst.tar.gz /var/lib/jenkins/workspace/FormulaEvaluator/build/tst'
+                   echo " test_detail tst tar directory generated"
+                }
+            }
+
+             stage('Upload test_detail to Nexus repo')
+            {
+                steps
+                {
+                    nexusArtifactUploader artifacts: [[artifactId: '${BUILD_NUMBER}', classifier: 'tst.tar.gz', file: '/var/lib/jenkins/workspace/FormulaEvaluator/build/tst.tar.gz', type: 'tar']], credentialsId: 'nexus', groupId: 'cmake-repo', nexusUrl: 'localhost:8081', nexusVersion: 'nexus3', protocol: 'http', repository: 'unit-test', version: '1'
+                }
+                post{
+                         always{
+                         mail to: "shreya.dhanbhar@bluebinaries.com",
+                         subject: "gtest.html file Uploaded",
+                         body: "${BUILD_NUMBER}_Passed! Uploaded google-test generated test_detail.html file to Nexus repo successfully, past the given path "
+                         }
+                   }
+            
+            }
+
 
         stage('Generating Doxygen Documentation')
             {
@@ -119,7 +112,12 @@ stages{
                 {
                     sh 'cd /var/lib/jenkins/workspace/FormulaEvaluator/build/ && make docs'
                     sh 'chmod -R 777 /var/lib/jenkins/workspace/FormulaEvaluator/*'        
+                    //index.html created
                     echo "index.html created"  
+
+                    //building tar directory 
+                    sh 'cd /var/lib/jenkins/workspace/FormulaEvaluator/docs/html && tar -czvf /var/lib/jenkins/workspace/FormulaEvaluator/docs/html.tar.gz /var/lib/jenkins/workspace/FormulaEvaluator/docs/html/'
+                    echo "tar directory generated for doxygen"
             
                 }
               post{  
@@ -131,15 +129,7 @@ stages{
               }
             
             }
-             stage('Doxygen tar')
-            {
-                steps
-                {
-                    //building tar directory 
-                    sh 'cd /var/lib/jenkins/workspace/FormulaEvaluator/docs/html && tar -czvf /var/lib/jenkins/workspace/FormulaEvaluator/docs/html.tar.gz /var/lib/jenkins/workspace/FormulaEvaluator/docs/html/'
-                    echo "tar directory generated for doxygen"
-                }
-            } 
+            
             stage('Upload Doxygen tar to Nexus repo')
             {
                 steps
@@ -149,8 +139,23 @@ stages{
                 post{
                          always{
                          mail to: "shreya.dhanbhar@bluebinaries.com",
-                         subject: "Documents Uploaded",
-                         body: "${BUILD_NUMBER}_Passed! Uploaded Generated Doxygen Documents to Nexus repo successfully"
+                         subject: "Doxygen Documents Uploaded",
+                         body: "${BUILD_NUMBER}_Passed! Generated Doxygen Documents are uploded to Nexus repo successfully"
+                         }
+                   }
+            
+            }   
+            stage('Pipeline Review')
+            {
+                steps
+                {
+                    echo "Pipeline executed successfully !!"
+                }
+                post{
+                         always{
+                         mail to: "shreya.dhanbhar@bluebinaries.com",
+                         subject: "Execution Completed Successfully",
+                         body: "${BUILD_NUMBER}_Passed! Pipeline Execution Successfully Completed"
                          }
                    }
             
