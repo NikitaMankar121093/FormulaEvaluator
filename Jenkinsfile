@@ -99,7 +99,7 @@ stages{
                          always{
                          mail to: "shreya.dhanbhar@bluebinaries.com",
                          subject: "gtest.html file Uploaded",
-                         body: "${BUILD_NUMBER}_Passed! Uploaded google-test generated test_detail.html file to Nexus repo successfully, past the given path "
+                         body: "${BUILD_NUMBER}_Passed! Uploaded google-test generated test_detail.html file to Nexus repo successfully"
                          }
                    }
             
