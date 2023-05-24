@@ -87,16 +87,12 @@ stages{
                    sh 'cd /var/lib/jenkins/workspace/FormulaEvaluator/build/ && tar -czvf /var/lib/jenkins/workspace/FormulaEvaluator/build/tst.tar.gz /var/lib/jenkins/workspace/FormulaEvaluator/build/tst'
                    echo " test_detail tst tar directory generated"
                 }
-            }
-                 stage ('xunit-report')
-            {
-            steps {
-                
-                  xunit checksName: '', thresholds: [passed(failureNewThreshold: '1', failureThreshold: '2', unstableNewThreshold: '2', unstableThreshold: '1')], tools: [JUnit(excludesPattern: '/var/lib/jenkins/workspace/FormulaEvaluator/build/tst/*.html', pattern: 'JUnitType', stopProcessingIfError: true)]
+            post {     
+   always {       xunit (testDataPublishers: [[$class: 'ClaimTestDataPublisher']], thresholds: [ skipped(failureThreshold: '0'), failed(failureThreshold: '0')], tools: [[$class: 'JUnitType', pattern: '**/var/lib/jenkins/workspace/FormulaEvaluator/build/tst*.xml']])
             }
         }
             
-
+            }
              stage('Upload test_detail to Nexus repo')
             {
                 steps
