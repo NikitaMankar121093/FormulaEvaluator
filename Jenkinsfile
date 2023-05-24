@@ -92,7 +92,7 @@ stages{
                 
                   xunit (
                 thresholds: [ skipped(failureThreshold: '0'), failed(failureThreshold: '0') ],
-                tools: [ BoostTest(pattern: '/var/lib/jenkins/workspace/FormulaEvaluator/build/tst/*.xml') ]
+                tools: [ BoostTest(pattern: '/var/lib/jenkins/workspace/FormulaEvaluator/build/tst/*.html') ]
             )
             }
         }
