@@ -46,6 +46,7 @@ stages{
 
 
                 }
+            }
                      post{
                              always{
                              mail to: "shreya.dhanbhar@bluebinaries.com",
@@ -53,7 +54,7 @@ stages{
                              body: "${BUILD_NUMBER}_Passed! Build Success and created .tar file i.e build.tar.gz"
                              }
                          }
-            }
+            
 
         stage('Upload Artifacts to Nexus repo')
             {
