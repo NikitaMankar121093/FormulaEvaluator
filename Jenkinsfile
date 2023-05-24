@@ -92,10 +92,7 @@ stages{
             {
             steps {
                 
-                  xunit (
-                thresholds: [ skipped(failureThreshold: '0'), failed(failureThreshold: '0') ],
-                tools: [ BoostTest(pattern: '/var/lib/jenkins/workspace/FormulaEvaluator/build/tst/*.html') ]
-            )
+                  xunit checksName: '', thresholds: [passed(failureNewThreshold: '1', failureThreshold: '2', unstableNewThreshold: '2', unstableThreshold: '1')], tools: [JUnit(excludesPattern: '/var/lib/jenkins/workspace/FormulaEvaluator/build/tst/*.html', pattern: 'JUnitType', stopProcessingIfError: true)]
             }
         }
             
