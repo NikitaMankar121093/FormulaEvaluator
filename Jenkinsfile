@@ -46,8 +46,15 @@ stages{
 
 
                 }
+                     post{
+                             always{
+                             mail to: "shreya.dhanbhar@bluebinaries.com",
+                             subject: "Build Success",
+                             body: "${BUILD_NUMBER}_Passed! Build Success and created .tar file i.e build.tar.gz"
+                             }
+                         }
             }
-              
+
         stage('Upload Artifacts to Nexus repo')
             {
                 steps
@@ -63,7 +70,7 @@ stages{
                    }
             
             }
-        stage('unit-test')
+        stage('Junit-test')
             {
                 steps
                 {
@@ -80,7 +87,8 @@ stages{
                    sh 'cd /var/lib/jenkins/workspace/FormulaEvaluator/build/ && tar -czvf /var/lib/jenkins/workspace/FormulaEvaluator/build/tst.tar.gz /var/lib/jenkins/workspace/FormulaEvaluator/build/tst'
                    echo " test_detail tst tar directory generated"
                 }
-            
+            }
+
              stage('Upload test_detail to Nexus repo')
             {
                 steps
