@@ -89,7 +89,11 @@ stages{
                 }
                  post {
             always {
-                junit '/var/lib/jenkins/workspace/FormulaEvaluator/build/tst/test_detail.xml'
+                
+                  xunit (
+                thresholds: [ skipped(failureThreshold: '0'), failed(failureThreshold: '0') ],
+                tools: [ BoostTest(pattern: '/var/lib/jenkins/workspace/FormulaEvaluator/build/tst/*.xml') ]
+            )
             }
         }
             }
