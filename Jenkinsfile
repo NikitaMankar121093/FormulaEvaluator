@@ -87,6 +87,11 @@ stages{
                    sh 'cd /var/lib/jenkins/workspace/FormulaEvaluator/build/ && tar -czvf /var/lib/jenkins/workspace/FormulaEvaluator/build/tst.tar.gz /var/lib/jenkins/workspace/FormulaEvaluator/build/tst'
                    echo " test_detail tst tar directory generated"
                 }
+                 post {
+            always {
+                junit '/var/lib/jenkins/workspace/FormulaEvaluator/build/tst/test_detail.xml'
+            }
+        }
             }
 
              stage('Upload test_detail to Nexus repo')
