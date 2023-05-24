@@ -88,8 +88,8 @@ stages{
                    echo " test_detail tst tar directory generated"
                 }
             }
-                 stage (xunit-report)
-    {
+                 stage ('xunit-report')
+            {
             steps {
                 
                   xunit (
